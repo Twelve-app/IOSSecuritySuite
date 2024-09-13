@@ -41,7 +41,8 @@ internal class ReverseEngineeringToolsChecker {
       case .openedPorts:
         result = checkOpenedPorts()
       case .pSelectFlag:
-        result = checkPSelectFlag()
+        break
+//        result = checkPSelectFlag()
       default:
         continue
       }
