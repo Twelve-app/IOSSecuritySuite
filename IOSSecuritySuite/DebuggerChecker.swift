@@ -12,6 +12,12 @@ internal class DebuggerChecker {
   // https://developer.apple.com/library/archive/qa/qa1361/_index.html
   static func amIDebugged() -> Bool {
     var kinfo = kinfo_proc()
+
+    // Initialize the flags so that, if sysctl fails for some bizarre
+    // reason, we get a predictable result.
+    // see: https://developer.apple.com/library/archive/qa/qa1361/_index.html
+    kinfo.kp_proc.p_flag = 0
+
     var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
     var size = MemoryLayout<kinfo_proc>.stride
     let sysctlRet = sysctl(&mib, UInt32(mib.count), &kinfo, &size, nil, 0)
